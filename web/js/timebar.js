@@ -1,7 +1,11 @@
 class Timebar {
-    constructor(element) {
+    constructor(element, parent) {
         let context = element.getContext("2d");
-        new ResizeObserver
+        this.observer = new ResizeObserver(entries => {
+            let elem = entries[0];
+            this.resize(element, );
+        });
+        this.observer.observe(parent);
     }
 
     resize(element, width, height) {

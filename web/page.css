@@ -3,42 +3,36 @@ html, body {
     height: 100%;
 }
 
-.main-body {
-    display: grid;
-    grid-template-columns: [first] auto [colleft] 60% [colright] auto [end];
-    grid-template-rows: [top] 40% [up] 100px [down] 40% [bottom];
+#week-view {
+    display: none;
+    /* display: grid; */
+    grid-template-columns: auto 10% 60% 10% auto;
+    grid-template-rows: 10% 15% 10% 10% 50% 5%;
     width: 100%;
     height: 100%;
 }
 
-.bottom-menu {
-    grid-column: colleft / colright;
-    grid-row: down / end;
+#month-view {
+    display: grid;
+    /* display: none; */
+    grid-template-columns: auto 10% 60% 10% auto;
+    grid-template-rows: 10% 15% 10% 55% 10%;
+    width: 100%;
+    height: 100%;
+}
+
+#stack-list {
+    grid-column: 3 / 4;
+    grid-row: 5 / 6;
     background-color: #ddddff;
 }
 
-.time-bar-container {
-    grid-column: colleft / colright;
-    grid-row: up / down;
-    border: 2px solid #bbbbbb;
-    border-radius: 40px;
-    background: linear-gradient(90deg,
-        #3D47D9, /* 00:00 - 02:00 */
-        #6855D2, /* 02:00 - 04:00 */
-        #BE6FC3, /* 04:00 - 06:00 */
-        #F1B2BB, /* 06:00 - 08:00 */
-        #F5CDBB, /* 08:00 - 10:00 */
-        #f9e7bb, /* 10:00 - 12:00 */
-        #f9e7bb, /* 12:00 - 14:00 */
-        #F5CDBB, /* 14:00 - 16:00 */
-        #F1B2BB, /* 16:00 - 18:00 */
-        #BE6FC3, /* 18:00 - 20:00 */
-        #6855D2, /* 20:00 - 22:00 */
-        #3D47D9  /* 22:00 - 24:00 */
-    );
+#time-bar-container {
+    grid-column: 3 / 4;
+    grid-row: 4 / 5;
 }
 
-.time-bar {
+#time-bar {
     background-color: red;
     width: 100%;
     height: 100%;
