@@ -7,7 +7,7 @@ html, body {
     display: none;
     /* display: grid; */
     grid-template-columns: auto 10% 60% 10% auto;
-    grid-template-rows: 10% 15% 10% 10% 50% 5%;
+    grid-template-rows: 10% 15% 10% 100px 50% 5%;
     width: 100%;
     height: 100%;
 }
@@ -30,10 +30,4 @@ html, body {
 #time-bar-container {
     grid-column: 3 / 4;
     grid-row: 4 / 5;
-}
-
-#time-bar {
-    background-color: red;
-    width: 100%;
-    height: 100%;
 }
