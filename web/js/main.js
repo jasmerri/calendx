@@ -2,6 +2,18 @@
   // during week display, write approximately 5 events
 
   function switchViews() {
-    document.getElementById("week-view").style.display = "none";
-    document.getElementById("month-view").style.display = "grid";
- }
+    weekview = document.getElementById("week-view");
+    monthview = document.getElementById("month-view");
+
+    if(weekview.style.display != "none") {
+      weekview.style.display = "none";
+      monthview.style.display = "grid";
+    } else {
+      weekview.style.display = "grid";
+      monthview.style.display = "none";
+    } 
+  }
+
+  function generateWeek(month, day) {
+    
+  }
