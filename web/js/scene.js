@@ -56,11 +56,11 @@ function getDaysInMonth(date) {
 function displayWeekEvents(date) {
     let original = new Date(date);
     let dateCopy = new Date(date);
-    let beginningDate = new Date(date.getTime() + (1 - 4) * 24 * 60 * 60 * 1000);
-    let endingDate = new Date(date.getTime() + (7 - 4) * 24 * 60 * 60 * 1000);
+    let beginningDate = new Date(dateCopy.getTime() + (1 - 4) * 24 * 60 * 60 * 1000);
+    let endingDate = new Date(dateCopy.getTime() + (7 - 4) * 24 * 60 * 60 * 1000);
     document.querySelector("#month-week-display").innerHTML = 
         beginningDate.toLocaleString('default', {month: 'long'}) + " " + 
-        beginningDate.getDate() + " - " + endingDate.toLocaleString('default', {month: 'long'}) + endingDate.getDate();
+        beginningDate.getDate() + " - " + endingDate.toLocaleString('default', {month: 'long'}) + " " + endingDate.getDate();
 
     for(let i = 3; i >= 1; i--) { // don't reassign date, because dateCopy gets reassigned repeatedly
         dateCopy = new Date(original.getTime() + (i - 4) * 24 * 60 * 60 * 1000); // set date to previous properly
