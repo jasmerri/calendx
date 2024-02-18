@@ -48,6 +48,35 @@ html, body {
     grid-row: 4 / 6;
 }
 
+@keyframes fademenu {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#edit-menu {
+    display: none;
+    grid-column: 3 / 4;
+    grid-row: 5 / 6;
+    background-color: #ddddff;
+}
+
+.icon-button {
+    opacity: 0.8;
+    cursor: pointer;
+    align-self: center;
+    justify-self: center;
+    width: 50%;
+    height: auto;
+    background-color: #dddddd;
+    border: 8px solid #dddddd;
+    border-radius: 16px;
+}
+
+#edit-button {
+    grid-column: 4 / 5;
+    grid-row: 4 / 5;
+}
+
 .day {
     border-style: solid;
     border-width: 1px;
@@ -57,13 +86,6 @@ html, body {
 }
 
 #arrow-icon {
-    width: 30px;
-    height: 30px;
-}
-
-#arrow-div {
-    grid-column: 3 / 4;
-    grid-row: 1 / 2;
-    margin-left: auto;
-    margin-right: auto;
+    grid-column: 2 / 3;
+    grid-row: 4 / 5;
 }

@@ -10,8 +10,6 @@ let schedule = new Schedule();
 
 let sample = createWeeklyEntry("cook", "#ffabcd", addDays(justDay(Date.now()), -1), [ true, true, true, true, true, true, true ], createRange(0, 1800000));
 schedule.registerEntry(sample);
-let sample2 = createWeeklyEntry("milk", "#392172", addDays(justDay(Date.now()), -1), [ true, true, true, true, true, true, true ], createRange(900000, 18000000));
-schedule.registerEntry(sample2);
 let sample3 = createWeeklyEntry("elizabeth", "#a032f7", addDays(justDay(Date.now()), -1), [ true, true, true, true, true, true, true ], createRange(9000000, 27000000));
 schedule.registerEntry(sample3);
 let sample4 = createWeeklyEntry("[", "#ff0000", addDays(justDay(Date.now()), -1), [ true, true, true, true, true, true, true ], createRange(11000000, 36000000));

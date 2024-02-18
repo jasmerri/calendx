@@ -130,7 +130,7 @@ export class Timebar {
         let events = [...this.day.events];
         events.sort((a, b) => a.range.start - b.range.start);
 
-        let layers = [];
+        let layers = [[], [], [], []];
         for(let event of events) {
             let i = 0;
             outer:
