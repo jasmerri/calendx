@@ -166,12 +166,12 @@ export class Timebar {
         this.renderTimebar(context, width, TIMEBAR_HEIGHT);
 
         context.fillStyle = "black";
-        context.fillRect(0, TIMEBAR_HEIGHT, width, 1);
+        context.fillRect(0, TIMEBAR_HEIGHT - 1, width, 1);
 
         context.save();
-        context.translate(0, (TIMEBAR_HEIGHT + 1));
+        context.translate(0, TIMEBAR_HEIGHT);
         if(this.day != undefined) {
-            this.renderEventStack(context, width, height - TIMEBAR_HEIGHT - 1);
+            this.renderEventStack(context, width, height - TIMEBAR_HEIGHT);
         }
         context.restore();
     }

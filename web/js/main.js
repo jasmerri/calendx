@@ -21,5 +21,15 @@ timebar.setDay(schedule.getDay(Date.now()));
 makeDays();
 document.querySelector("#arrow-icon").addEventListener("click", switchViews);
 
+document.querySelector("#edit-button")
+        .addEventListener("click", () => {
+            let element = document.querySelector("#edit-menu");
+            if(element.classList.contains("invisible")) {
+                element.classList.remove("invisible");
+            } else {
+                element.classList.add("invisible");
+            }
+        });
+
 // when writing to the calendar with genMonth(), display a max of 3 events
 // during week display, write approximately 5 events

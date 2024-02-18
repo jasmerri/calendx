@@ -48,16 +48,16 @@ html, body {
     grid-row: 4 / 6;
 }
 
-@keyframes fademenu {
-    from { opacity: 0; }
-    to { opacity: 1; }
+.invisible {
+    opacity: 0;
+    pointer-events: none;
 }
 
 #edit-menu {
-    display: none;
     grid-column: 3 / 4;
     grid-row: 5 / 6;
     background-color: #ddddff;
+    transition: opacity 0.2s;
 }
 
 .icon-button {
