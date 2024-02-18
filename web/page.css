@@ -46,7 +46,6 @@ html, body {
 #time-bar-container {
     grid-column: 3 / 4;
     grid-row: 4 / 6;
-    background-color: forestgreen;
 }
 
 .day {
