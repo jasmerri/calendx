@@ -43,15 +43,10 @@ html, body {
     width: 100%;
 }
 
-#stack-list {
-    grid-column: 3 / 4;
-    grid-row: 5 / 6;
-    background-color: #ddddff;
-}
-
 #time-bar-container {
     grid-column: 3 / 4;
-    grid-row: 4 / 5;
+    grid-row: 4 / 6;
+    background-color: forestgreen;
 }
 
 .day {

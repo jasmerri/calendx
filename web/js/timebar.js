@@ -1,6 +1,8 @@
 import { addDays } from "./schedule/dateutil.js";
+import { rangesIntersect } from "./schedule/range.js";
 
 const EVENTBAR_HEIGHT = 20;
+const TIMEBAR_HEIGHT = 100;
 
 export class Timebar {
     constructor(element, parent, schedule) {
@@ -72,19 +74,25 @@ export class Timebar {
         }
     }
 
-    renderEvents(context, width, height) {
+    computeGraphicalPosition(event, width) {
         let start = this.day.date;
         let end = addDays(start, 1);
         let length = end - start;
 
+        let left = (Math.max(start, event.range.start) - start) / length * width;
+        let right = (Math.min(end, event.range.end) - start) / length * width;
+
+        return { start: left, end: right, width: right - left };
+    }
+
+    renderEvents(context, width, height) {
         context.fillStyle = "white";
         context.fillRect(0, height - EVENTBAR_HEIGHT, width, EVENTBAR_HEIGHT);
         for(let event of this.day.events) {
-            let left = (Math.max(start, event.range.start) - start) / length * width;
-            let right = (Math.min(end, event.range.end) - start) / length * width;
+            let position = this.computeGraphicalPosition(event, width);
             let entry = this.schedule.entries[event.entryId];
             context.fillStyle = `${entry.color}77`;
-            context.fillRect(Math.floor(left), height - EVENTBAR_HEIGHT, Math.floor(right - left), height);
+            context.fillRect(Math.floor(position.start), height - EVENTBAR_HEIGHT, Math.floor(position.width), height);
         }
     }
 
@@ -97,8 +105,10 @@ export class Timebar {
         }
     }
 
-    render(context, width, height) {
+    renderTimebar(context, width, height) {
         context.clearRect(0, 0, width, height);
+
+        context.save();
 
         context.beginPath();
         context.roundRect(0, 0, width, height, [20, 20, 0, 0]);
@@ -113,7 +123,57 @@ export class Timebar {
         this.renderTicks(context, width, height);
         this.renderLine(context, width, height);
 
-        context.globalCompositeOperation = false;
+        context.restore();
+    }
+
+    renderEventStack(context, width, height) {
+        let events = [...this.day.events];
+        events.sort((a, b) => a.range.start - b.range.start);
+
+        let layers = [];
+        for(let event of events) {
+            let i = 0;
+            outer:
+            while(true) {
+                let layer = layers[i] ?? (layers[i] = []);
+                for(let other of layer) {
+                    if(rangesIntersect(other.range, event.range)) {
+                        i++;
+                        continue outer;
+                    }
+                }
+                break;
+            }
+            layers[i].push(event);
+        }
+
+        context.fillStyle = "#eeeeff";
+        context.fillRect(0, 0, width, height);
+
+        let barHeight = Math.floor(height / layers.length);
+        for(let i = 0; i < layers.length; i++) {
+            let layer = layers[i];
+            for(let event of layer) {
+                let position = this.computeGraphicalPosition(event, width);
+                let entry = this.schedule.entries[event.entryId];
+                context.fillStyle = `${entry.color}cc`;
+                context.fillRect(Math.floor(position.start), barHeight * i, Math.floor(position.width), barHeight);
+            }
+        }
+    }
+
+    render(context, width, height) {
+        this.renderTimebar(context, width, TIMEBAR_HEIGHT);
+
+        context.fillStyle = "black";
+        context.fillRect(0, TIMEBAR_HEIGHT, width, 1);
+
+        context.save();
+        context.translate(0, (TIMEBAR_HEIGHT + 1));
+        if(this.day != undefined) {
+            this.renderEventStack(context, width, height - TIMEBAR_HEIGHT - 1);
+        }
+        context.restore();
     }
 }
 
