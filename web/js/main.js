@@ -3,8 +3,8 @@ import { Schedule } from "./schedule/schedule.js";
 import { createWeeklyEntry } from "./schedule/helpers.js";
 import { addDays, justDay } from "./schedule/dateutil.js";
 import { createRange } from "./schedule/range.js";
-import { switchViews } from "./scene.js";
 import { makeDays } from "./scene.js";
+import { correctMonthFormat, switchViews } from "./scene.js";
 
 let schedule = new Schedule();
 
@@ -19,6 +19,8 @@ let timebar = new Timebar(document.querySelector("#time-bar"), document.querySel
 timebar.setDay(schedule.getDay(Date.now()));
 
 makeDays();
+correctMonthFormat();
+
 document.querySelector("#arrow-icon").addEventListener("click", switchViews);
 
 document.querySelector("#edit-button")
