@@ -148,6 +148,7 @@ export class Editor {
             let reader = new FileReader();
             reader.onload = () => {
                 this.schedule = Schedule.read(JSON.parse(reader.result), this.schedule);
+                this.weekview.reload();
             }
             reader.readAsText(this.importFile.files[0]);
         });
