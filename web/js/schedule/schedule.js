@@ -45,13 +45,13 @@ export class Schedule {
         return new Day(justDay(date), relevant);
     }
 
-    static read(data) {
+    static read(data, existing) {
         try {
             if(data.version > 1) {
                 throw new Error("database version too high");
             }
 
-            let schedule = new Schedule();
+            let schedule = existing ?? new Schedule();
 
             schedule.currentEntryId = data.schedule.currentEntryId;
             schedule.events = data.events;

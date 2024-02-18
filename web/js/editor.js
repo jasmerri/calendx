@@ -134,6 +134,7 @@ export class Editor {
         this.save = $("#edit-save");
         this.import = $("#edit-import");
         this.export = $("#edit-export");
+        this.importFile = $("#edit-file-import");
 
         for(let day of this.daysOfTheWeek) {
             day.addEventListener("input", () => {
@@ -143,8 +144,16 @@ export class Editor {
 
         this.save.addEventListener("click", () => this.trySubmit());
 
-        this.import.addEventListener("click", () => {
+        this.importFile.addEventListener("input", () => {
+            let reader = new FileReader();
+            reader.onload = () => {
+                this.schedule = Schedule.read(JSON.parse(reader.result), this.schedule);
+            }
+            reader.readAsText(this.importFile.files[0]);
+        });
 
+        this.import.addEventListener("click", () => {
+            this.importFile.click();
         });
 
         this.export.addEventListener("click", async() => {
