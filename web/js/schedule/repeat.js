@@ -47,28 +47,29 @@ export class WeeklyRepeat extends RepeatType {
     }
 }
 
+// schema: { relativeRange: ..., day: ..., updatedTo: ..., repeatType: ... }
 export class NoRepeats extends RepeatType {
     constructor() {
         super("none");
     }
 
     produceEvents(entry) {
-        // fixme: implement this
-        let range = addToRange(entry.repeat.relativeRange, entry.repeat.day);
-        return [ createEvent(range, entry.id) ];
+        if(entry.repeat.updatedTo < entry.repeat.day + entry.repeat.relativeRange.end) {
+            entry.repeat.updatedTo = entry.repeat.day;
+            let range = addToRange(entry.repeat.relativeRange, entry.repeat.day);
+            return [ createEvent(range, entry.id) ];
+        }
+        return [];
     }
 
     produceUntil(entry, end) {
-        let events = [];
-        while(entry.repeat.updatedTo < end) {
-            events.push(this.produceEvents(entry));
-        }
-        return events.flat();
+        return this.produceEvents(entry).flat();
     }
 }
 
 export const repeatTypes = {
-    weekly: new WeeklyRepeat()
+    weekly: new WeeklyRepeat(),
+    none: new NoRepeats()
 };
 
 export function getRepeatType(entry) {
