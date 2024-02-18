@@ -4,7 +4,7 @@ import { createWeeklyEntry } from "./schedule/helpers.js";
 import { addDays, justDay } from "./schedule/dateutil.js";
 import { createRange } from "./schedule/range.js";
 import { makeDays } from "./scene.js";
-import { correctMonthFormat, switchViews } from "./scene.js";
+import { correctMonthFormat, switchViews, displayMonthEvents } from "./scene.js";
 
 let schedule = new Schedule();
 
@@ -18,8 +18,10 @@ schedule.registerEntry(sample4);
 let timebar = new Timebar(document.querySelector("#time-bar"), document.querySelector("#time-bar-container"), schedule);
 timebar.setDay(schedule.getDay(Date.now()));
 
+let startDate = new Date();
 makeDays();
-correctMonthFormat();
+let monthStartDay = correctMonthFormat(startDate);
+displayMonthEvents(startDate, monthStartDay);
 
 document.querySelector("#arrow-icon").addEventListener("click", switchViews);
 
