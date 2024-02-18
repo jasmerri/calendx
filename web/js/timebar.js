@@ -1,5 +1,7 @@
 import { addDays } from "./schedule/dateutil.js";
 
+const EVENTBAR_HEIGHT = 20;
+
 export class Timebar {
     constructor(element, parent, schedule) {
         this.observer = new ResizeObserver(entries => {
@@ -75,12 +77,23 @@ export class Timebar {
         let end = addDays(start, 1);
         let length = end - start;
 
+        context.fillStyle = "white";
+        context.fillRect(0, height - EVENTBAR_HEIGHT, width, EVENTBAR_HEIGHT);
         for(let event of this.day.events) {
             let left = (Math.max(start, event.range.start) - start) / length * width;
             let right = (Math.min(end, event.range.end) - start) / length * width;
             let entry = this.schedule.entries[event.entryId];
             context.fillStyle = `${entry.color}77`;
-            context.fillRect(Math.floor(left), 0, Math.floor(right - left), height);
+            context.fillRect(Math.floor(left), height - EVENTBAR_HEIGHT, Math.floor(right - left), height);
+        }
+    }
+
+    renderTicks(context, width, height) {
+        let increment = width / 48;
+        context.fillStyle = "#22222233";
+        for(let i = 0; i < 48; i++) {
+            let tickHeight = (i % 2 < 1) ? height : EVENTBAR_HEIGHT * 2;
+            context.fillRect(Math.floor(increment * i), (height - tickHeight), 1, tickHeight);
         }
     }
 
@@ -91,12 +104,14 @@ export class Timebar {
         context.roundRect(0, 0, width, height, [20, 20, 0, 0]);
         context.clip();
 
-        this.renderGradient(context, width, height);
-        this.renderLine(context, width, height);
+        this.renderGradient(context, width, height - EVENTBAR_HEIGHT);
 
         if(this.day != undefined) {
             this.renderEvents(context, width, height);
         }
+
+        this.renderTicks(context, width, height);
+        this.renderLine(context, width, height);
 
         context.globalCompositeOperation = false;
     }
