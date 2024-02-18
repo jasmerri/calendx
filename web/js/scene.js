@@ -43,6 +43,12 @@ function getDaysInMonth(date) {
 // figure out why it's going down by 2 each time
 function displayWeekEvents(date) {
     let dateCopy = new Date(date);
+    let beginningDate = new Date(date.getTime() + (1 - 4) * 24 * 60 * 60 * 1000);
+    let endingDate = new Date(date.getTime() + (7 - 4) * 24 * 60 * 60 * 1000);
+    document.querySelector("#month-week-display").innerHTML = 
+        beginningDate.toLocaleString('default', {month: 'long'}) + " " + 
+        beginningDate.getDate() + " - " + endingDate.toLocaleString('default', {month: 'long'}) + endingDate.getDate();
+
     for(let i = 3; i >= 1; i--) { // don't reassign date, because dateCopy gets reassigned repeatedly
         console.log("date: ", dateCopy);
         console.log("date + (i-4): " + (dateCopy.getTime() - (i - 4) * 24 * 60 * 60 * 1000));
@@ -80,6 +86,7 @@ export function displayMonthEvents(date, monthStartDay) {
 export function correctMonthFormat(currentDay) {
     //let currentDay = new Date();
     currentDay.setDate(1); // change to first day of the month
+    document.querySelector("#month-year-display").innerHTML = currentDay.toLocaleString('default', {month: 'long'}) + " " + currentDay.getFullYear();
     const dayNum = currentDay.getDay();
     // potential feature: don't remove previous month's days, but update their numbers as well
     // and gray them out instead of making invisible
