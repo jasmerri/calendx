@@ -1,4 +1,4 @@
-import { addDays } from "./schedule/dateutil.js";
+import { addDays, timeStr } from "./schedule/dateutil.js";
 import { rangesIntersect } from "./schedule/range.js";
 
 const EVENTBAR_HEIGHT = 20;
@@ -126,11 +126,55 @@ export class Timebar {
         context.restore();
     }
 
-    renderEventStack(context, width, height) {
+    renderTooltip(context, event, entry, x, y) {
+        let margin = 15;
+        let offset = 10;
+
+        let lines = [];
+        let measurements = [];
+
+        lines.push(entry.name);
+        lines.push(`${timeStr(event.range.start)}-${timeStr(event.range.end)}`);
+
+        context.font = "24px serif";
+
+        for(let i = 0; i < lines.length; i++) {
+            measurements.push(context.measureText(lines[i]));
+        }
+
+        let maxWidth = 0;
+        let totalHeight = 0;
+        for(let i = 0; i < measurements.length; i++) {
+            let metrics = measurements[i];
+            maxWidth = Math.max(metrics.width);
+            totalHeight += metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent;
+        }
+
+        let actualWidth = Math.floor(maxWidth + margin * 2);
+        let actualHeight = Math.floor(totalHeight + margin * 2);
+
+        let posx = Math.floor(x + offset);
+        let posy = Math.floor(y + offset);
+
+        context.fillStyle = "#222222bb";
+        context.fillRect(posx, posy, actualWidth, actualHeight);
+
+        let hpos = margin;
+        context.fillStyle = "white";
+        for(let i = 0; i < lines.length; i++) {
+            let metrics = measurements[i];
+            context.fillText(lines[i], Math.floor(posx + (actualWidth - metrics.width) / 2), Math.floor(posy + hpos + metrics.fontBoundingBoxAscent));
+            hpos += metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent;
+        }
+    }
+
+    renderEventStack(context, width, height, x, y) {
+        context.translate(x, y);
+
         let events = [...this.day.events];
         events.sort((a, b) => a.range.start - b.range.start);
 
-        let layers = [[], [], [], []];
+        let layers = [ [], [], [], [] ];
         for(let event of events) {
             let i = 0;
             outer:
@@ -151,14 +195,31 @@ export class Timebar {
         context.fillRect(0, 0, width, height);
 
         let barHeight = Math.floor(height / layers.length);
+
+        let tooltip = undefined;
+
         for(let i = 0; i < layers.length; i++) {
             let layer = layers[i];
             for(let event of layer) {
                 let position = this.computeGraphicalPosition(event, width);
                 let entry = this.schedule.entries[event.entryId];
+
+                let top = barHeight * i;
+                let bottom = top + barHeight;
+
                 context.fillStyle = `${entry.color}cc`;
-                context.fillRect(Math.floor(position.start), barHeight * i, Math.floor(position.width), barHeight);
+                context.fillRect(Math.floor(position.start), top, Math.floor(position.width), barHeight);
+
+                let mx = this.mouseX - x;
+                let my = this.mouseY - y;
+                if(mx > position.start && mx < position.end && my > top && my < bottom) {
+                    tooltip = [context, event, entry, mx, my];
+                }
             }
+        }
+
+        if(tooltip != undefined) {
+            this.renderTooltip(...tooltip);
         }
     }
 
@@ -169,9 +230,8 @@ export class Timebar {
         context.fillRect(0, TIMEBAR_HEIGHT - 1, width, 1);
 
         context.save();
-        context.translate(0, TIMEBAR_HEIGHT);
         if(this.day != undefined) {
-            this.renderEventStack(context, width, height - TIMEBAR_HEIGHT);
+            this.renderEventStack(context, width, height - TIMEBAR_HEIGHT, 0, TIMEBAR_HEIGHT);
         }
         context.restore();
     }
