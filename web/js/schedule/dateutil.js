@@ -23,3 +23,14 @@ export function rangeOfNDays(date, n) {
     let day = justDay(date);
     return createRange(day, addDays(day, n));
 }
+
+// convert to the time of day
+export function timeStr(time) {
+    let date = new Date(time);
+    let hour = date.getHours().toString();
+    let minute = date.getMinutes().toString();
+    if(minute.length == 1) {
+        minute = "0" + minute;
+    }
+    return hour + ":" + minute;
+}

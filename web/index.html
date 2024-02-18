@@ -13,7 +13,38 @@
             <div id="time-bar-container">
                 <canvas id="time-bar"></canvas>
             </div>
-            <div id="edit-menu" class="invisible"></div>
+            <div id="edit-menu" class="invisible">
+                <label for="edit-color">Color: </label>
+                <div><input id="edit-color" type="color"></div>
+                <label for="edit-name">Name: </label>
+                <div><input id="edit-name"></div>
+                <div><b>Repeat:</b></div>
+                <div id="edit-days-of-the-week">
+                    <label for="edit-sunday">Sun</label>
+                    <label for="edit-monday">Mon</label>
+                    <label for="edit-tuesday">Tues</label>
+                    <label for="edit-wednesday">Wed</label>
+                    <label for="edit-thursday">Thurs</label>
+                    <label for="edit-friday">Fri</label>
+                    <label for="edit-saturday">Sat</label>
+                    <div><input id="edit-sunday" type="checkbox"></div>
+                    <div><input id="edit-monday" type="checkbox"></div>
+                    <div><input id="edit-tuesday" type="checkbox"></div>
+                    <div><input id="edit-wednesday" type="checkbox"></div>
+                    <div><input id="edit-thursday" type="checkbox"></div>
+                    <div><input id="edit-friday" type="checkbox"></div>
+                    <div><input id="edit-saturday" type="checkbox"></div>
+                </div>
+                <div id="edit-only-once">
+                    <label for="edit-date">Date: </label>
+                    <div><input id="edit-date" type="date"></div>
+                </div>
+                <label for="edit-begins">Begins: </label>
+                <div><input id="edit-begins" type="time"></div>
+                <label for="edit-ends">Ends: </label>
+                <div><input id="edit-ends" type="time"></div>
+                <button id="edit-save">Save</button>
+            </div>
             <img src="assets/plus.svg" class="icon-button" id="edit-button">
             <div id="week-calendar"></div>
         </div>

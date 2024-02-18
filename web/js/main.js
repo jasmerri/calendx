@@ -5,6 +5,7 @@ import { addDays, justDay } from "./schedule/dateutil.js";
 import { createRange } from "./schedule/range.js";
 import { makeDays } from "./scene.js";
 import { correctMonthFormat, switchViews, displayMonthEvents } from "./scene.js";
+import { Editor } from "./editor.js";
 
 let schedule = new Schedule();
 
@@ -25,13 +26,14 @@ displayMonthEvents(startDate, monthStartDay);
 
 document.querySelector("#arrow-icon").addEventListener("click", switchViews);
 
+let editor = new Editor();
+
 document.querySelector("#edit-button")
         .addEventListener("click", () => {
-            let element = document.querySelector("#edit-menu");
-            if(element.classList.contains("invisible")) {
-                element.classList.remove("invisible");
+            if(editor.entry == undefined) {
+                editor.openEditor({});
             } else {
-                element.classList.add("invisible");
+                editor.closeEditor();
             }
         });
 
