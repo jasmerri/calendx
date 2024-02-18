@@ -47,6 +47,26 @@ export class WeeklyRepeat extends RepeatType {
     }
 }
 
+export class NoRepeats extends RepeatType {
+    constructor() {
+        super("none");
+    }
+
+    produceEvents(entry) {
+        // fixme: implement this
+        let range = addToRange(entry.repeat.relativeRange, entry.repeat.day);
+        return [ createEvent(range, entry.id) ];
+    }
+
+    produceUntil(entry, end) {
+        let events = [];
+        while(entry.repeat.updatedTo < end) {
+            events.push(this.produceEvents(entry));
+        }
+        return events.flat();
+    }
+}
+
 export const repeatTypes = {
     weekly: new WeeklyRepeat()
 };
