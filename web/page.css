@@ -98,7 +98,17 @@ html, body {
     cursor: pointer;
 }
 
-#arrow-icon {
+#left-arrow {
     grid-column: 2 / 3;
     grid-row: 4 / 5;
+}
+
+#down-arrow {
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+    width: 5%;
+    height: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
 }
