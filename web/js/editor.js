@@ -1,5 +1,6 @@
 import { createRange } from "./schedule/range.js";
 import { justDay } from "./schedule/dateutil.js";
+import { Schedule } from "./schedule/schedule.js";
 
 export class Editor {
     constructor(schedule, weekview) {
@@ -131,6 +132,8 @@ export class Editor {
         this.begins = $("#edit-begins");
         this.ends = $("#edit-ends");
         this.save = $("#edit-save");
+        this.import = $("#edit-import");
+        this.export = $("#edit-export");
 
         for(let day of this.daysOfTheWeek) {
             day.addEventListener("input", () => {
@@ -139,5 +142,26 @@ export class Editor {
         }
 
         this.save.addEventListener("click", () => this.trySubmit());
+
+        this.import.addEventListener("click", () => {
+
+        });
+
+        this.export.addEventListener("click", async() => {
+            let data = JSON.stringify(Schedule.write(this.schedule));
+            let file = new Blob([data], {type: "json"});
+            const a = document.createElement('a');
+            let url = URL.createObjectURL(file);
+            a.href = url;
+            a.download = "export.json";
+            a.style.display = 'none';
+            document.body.append(a);
+            a.click();
+            setTimeout(() => {
+              URL.revokeObjectURL(url);
+              a.remove();
+            }, 1000);
+          
+        });
     }
 }
