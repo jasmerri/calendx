@@ -1,3 +1,11 @@
+export function createRange(start, end) {
+    return { start, end };
+}
+
+export function addToRange(range, time) {
+    return createRange(range.start + time, range.end + time);
+}
+
 export function rangeContains(a, time) {
     return (time > a.start) && (time < a.end);
 }

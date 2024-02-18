@@ -1,3 +1,4 @@
+import { getRepeatType } from "./repeat.js";
 import { rangesIntersect } from "./range.js";
 
 export class Schedule {
@@ -14,7 +15,14 @@ export class Schedule {
     }
 
     generateUntil(time) {
-
+        let newEvents = [];
+        for(let key of Object.keys(this.entries)) {
+            let entry = this.entries[key];
+            newEvents.push(getRepeatType(entry).produceUntil(time));
+        }
+        newEvents = newEvents.flat();
+        newEvents.sort((a, b) => a.start - b.start);
+        this.events = this.events.concat(newEvents);
     }
 
     getRelevantEvents(range) {
@@ -32,25 +40,33 @@ export class Schedule {
 
     static read(data) {
         try {
+            if(data.version > 1) {
+                throw new Error("database version too high");
+            }
+
             let schedule = new Schedule();
 
-            scheudle.currentEntryId = data.schedule.currentEntryId;
+            schedule.currentEntryId = data.schedule.currentEntryId;
+            schedule.events = data.events;
+            schedule.entries = data.entries;
+
             return schedule;
         } catch(e) {
-            alert("Failed to load data!");
+            alert(`Failed to load data: ${e}`);
         }
-
-        throw new Error("schedule read is not yet implemented");
 
         return undefined;
     }
 
-    static write() {
+    static write(schedule) {
         let data = {};
         data.schedule = {};
-        data.schedule.currentEntryId = this.currentEntryId;
 
-        throw new Error("schedule write is not yet implemented");
+        data.version = 1;
+
+        data.schedule.currentEntryId = schedule.currentEntryId;
+        data.events = schedule.events;
+        data.entries = schedule.entries;
 
         return data;
     }
