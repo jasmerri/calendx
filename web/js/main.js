@@ -24,7 +24,7 @@ makeDays();
 let monthStartDay = correctMonthFormat(startDate);
 displayMonthEvents(startDate, monthStartDay);
 
-document.querySelector("#arrow-icon").addEventListener("click", switchViews);
+document.querySelector("#left-arrow").addEventListener("click", switchViews);
 
 let editor = new Editor();
 
