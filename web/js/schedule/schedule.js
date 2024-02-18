@@ -1,5 +1,7 @@
 import { getRepeatType } from "./repeat.js";
 import { rangesIntersect } from "./range.js";
+import { Day } from "./day.js";
+import { justDay, rangeOfNDays } from "./dateutil.js";
 
 export class Schedule {
     constructor() {
@@ -18,7 +20,7 @@ export class Schedule {
         let newEvents = [];
         for(let key of Object.keys(this.entries)) {
             let entry = this.entries[key];
-            newEvents.push(getRepeatType(entry).produceUntil(time));
+            newEvents.push(getRepeatType(entry).produceUntil(entry, time));
         }
         newEvents = newEvents.flat();
         newEvents.sort((a, b) => a.start - b.start);
@@ -36,6 +38,11 @@ export class Schedule {
             }
         }
         return relevant;
+    }
+
+    getDay(date) {
+        let relevant = this.getRelevantEvents(rangeOfNDays(date, 1));
+        return new Day(justDay(date), relevant);
     }
 
     static read(data) {

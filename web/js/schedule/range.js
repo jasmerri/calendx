@@ -1,4 +1,7 @@
 export function createRange(start, end) {
+    if(typeof(start) != "number" || typeof(end) != "number") {
+        debugger;
+    }
     return { start, end };
 }
 
@@ -7,7 +10,7 @@ export function addToRange(range, time) {
 }
 
 export function rangeContains(a, time) {
-    return (time > a.start) && (time < a.end);
+    return (time >= a.start) && (time < a.end);
 }
 
 export function rangesIntersect(a, b) {

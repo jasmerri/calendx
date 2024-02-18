@@ -1,5 +1,6 @@
 import { createEvent } from "./event.js";
 import { addToRange } from "./range.js";
+import { addDays } from "./dateutil.js";
 
 // schema: { updatedTo: ..., repeatType: ... }
 export class RepeatType {
@@ -20,7 +21,7 @@ export class RepeatType {
     }
 }
 
-// schema: { weekdays: [su, mo, tu, we, th, fr, sa], updatedTo: ..., repeatType: ... }
+// schema: { weekdays: [su, mo, tu, we, th, fr, sa], updatedTo: ..., repeatType: ..., relativeRange: ... }
 export class WeeklyRepeat extends RepeatType {
     constructor() {
         super("weekly");
@@ -32,22 +33,23 @@ export class WeeklyRepeat extends RepeatType {
 
         let events = [];
 
-        let date = start.getDate();
         for(let i = 0; i < 7; i++) {
-            let newDate = new Date(start).setDate(date + i);
+            let newDate = new Date(addDays(start, i));
             if(weekdays[newDate.getDay()]) {
-                let newRange = addToRange(entry.repeat.relativeRange, newDate);
+                let newRange = addToRange(entry.repeat.relativeRange, +newDate);
                 events.push(createEvent(newRange, entry.id));
             }
         }
+        let newDate = addDays(start, 7);
+        entry.repeat.updatedTo = newDate;
 
         return events;
     }
 }
 
-export const repeatTypes = [
-    new WeeklyRepeat()
-].map(rt => ({ [rt.name]: rt }));
+export const repeatTypes = {
+    weekly: new WeeklyRepeat()
+};
 
 export function getRepeatType(entry) {
     return repeatTypes[entry.repeat.repeatType];
