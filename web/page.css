@@ -38,7 +38,8 @@ html, body {
     grid-column: 3 / 4;
     grid-row: 4 / 5;
     gap: 3px 3px;
-    background-color: white;
+    background-color: #eeeeff;
+    padding: 20px;
     height: 100%;
     width: 100%;
 }
