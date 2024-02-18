@@ -4,7 +4,7 @@ import { createWeeklyEntry } from "./schedule/helpers.js";
 import { addDays, justDay } from "./schedule/dateutil.js";
 import { createRange } from "./schedule/range.js";
 import { makeDays } from "./scene.js";
-import { correctMonthFormat, switchViews } from "./scene.js";
+import { correctMonthFormat, switchViews, displayMonthEvents } from "./scene.js";
 import { Editor } from "./editor.js";
 import { WeekView } from "./weekview.js";
 
@@ -21,8 +21,10 @@ let timebar = new Timebar(document.querySelector("#time-bar"), document.querySel
 let weekview = new WeekView(schedule, timebar);
 weekview.setDay(schedule.getDay(Date.now()));
 
+let startDate = new Date();
 makeDays();
-correctMonthFormat();
+let monthStartDay = correctMonthFormat(startDate);
+displayMonthEvents(startDate, monthStartDay);
 
 document.querySelector("#arrow-icon").addEventListener("click", switchViews);
 
