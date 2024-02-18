@@ -3,6 +3,8 @@ import { Schedule } from "./schedule/schedule.js";
 import { createWeeklyEntry } from "./schedule/helpers.js";
 import { addDays, justDay } from "./schedule/dateutil.js";
 import { createRange } from "./schedule/range.js";
+import { switchViews } from "./scene.js";
+import { makeDays } from "./scene.js";
 
 let schedule = new Schedule();
 
@@ -12,22 +14,8 @@ schedule.registerEntry(sample);
 let timebar = new Timebar(document.querySelector("#time-bar"), document.querySelector("#time-bar-container"), schedule);
 timebar.setDay(schedule.getDay(Date.now()));
 
+makeDays();
+document.querySelector("#arrow-icon").addEventListener("click", switchViews);
+
 // when writing to the calendar with genMonth(), display a max of 3 events
 // during week display, write approximately 5 events
-
-function switchViews() {
-    weekview = document.getElementById("week-view");
-    monthview = document.getElementById("month-view");
-
-    if (weekview.style.display != "none") {
-        weekview.style.display = "none";
-        monthview.style.display = "grid";
-    } else {
-        weekview.style.display = "grid";
-        monthview.style.display = "none";
-    }
-}
-
-function generateWeek(month, day) {
-
-}

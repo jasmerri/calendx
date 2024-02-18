@@ -62,12 +62,12 @@ html, body {
     background-color: #ddddff;
 }
 
-#arrowicon {
+#arrow-icon {
     width: 30px;
     height: 30px;
 }
 
-#arrowdiv {
+#arrow-div {
     grid-column: 3 / 4;
     grid-row: 1 / 2;
     margin-left: auto;
