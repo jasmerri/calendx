@@ -29,7 +29,7 @@ let sceneManager = new SceneManager(weekview);
 SceneManager.instance = sceneManager;
 sceneManager.showWeek(Date.now());
 
-document.querySelector("#arrow-icon").addEventListener("click", () => sceneManager.showMonth());
+document.querySelector("#left-arrow").addEventListener("click", () => sceneManager.showMonth());
 
 let editor = new Editor(schedule, weekview);
 
