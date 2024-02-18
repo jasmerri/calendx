@@ -3,8 +3,8 @@ import { Schedule } from "./schedule/schedule.js";
 import { createWeeklyEntry } from "./schedule/helpers.js";
 import { addDays, justDay } from "./schedule/dateutil.js";
 import { createRange } from "./schedule/range.js";
-import { makeDays } from "./scene.js";
-import { correctMonthFormat, switchViews, displayMonthEvents } from "./scene.js";
+import { makeDays, SceneManager } from "./scene.js";
+import { correctMonthFormat, displayMonthEvents } from "./scene.js";
 import { Editor } from "./editor.js";
 import { WeekView } from "./weekview.js";
 
@@ -19,14 +19,17 @@ schedule.registerEntry(sample4);
 
 let timebar = new Timebar(document.querySelector("#time-bar"), document.querySelector("#time-bar-container"), schedule);
 let weekview = new WeekView(schedule, timebar);
-weekview.setDay(schedule.getDay(Date.now()));
 
 let startDate = new Date();
 makeDays();
 let monthStartDay = correctMonthFormat(startDate);
 displayMonthEvents(startDate, monthStartDay);
 
-document.querySelector("#arrow-icon").addEventListener("click", switchViews);
+let sceneManager = new SceneManager(weekview);
+SceneManager.instance = sceneManager;
+sceneManager.showWeek(Date.now());
+
+document.querySelector("#arrow-icon").addEventListener("click", () => sceneManager.showMonth());
 
 let editor = new Editor(schedule, weekview);
 

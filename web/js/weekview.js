@@ -6,8 +6,9 @@ export class WeekView {
     }
 
     setDay(day) {
-        this.day = day;
-        this.timebar.setDay(day);
+        let d = this.schedule.getDay(day);
+        this.day = d;
+        this.timebar.setDay(d);
     }
 
     reload() {
