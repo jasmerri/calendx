@@ -12,6 +12,6 @@ export class WeekView {
     }
 
     reload() {
-        this.setDay(this.schedule.getDay(this.day.date));
+        this.setDay(this.day.date);
     }
 }
